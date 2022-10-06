@@ -1,14 +1,15 @@
 from flask import Flask, render_template, request
+import tensorflow as tf
 
-from keras.preprocessing.image import load_img
-from keras.preprocessing.image import img_to_array
-from keras.applications.vgg16 import preprocess_input
-from keras.applications.vgg16 import decode_predictions
-from keras.applications.vgg16 import VGG16
+from tensorflow.keras.utils import load_img
+from tensorflow.keras.utils import img_to_array
+from tensorflow.keras.applications.vgg16 import preprocess_input
+from tensorflow.keras.applications.vgg16 import decode_predictions
+from tensorflow.keras.applications.vgg16 import VGG16
 
 app = Flask(__name__)
 
-model = VGG16
+model = VGG16()
 
 @app.route('/', methods=['GET'])
 def hello_world():
@@ -20,11 +21,11 @@ def predict():
     image_path = "./images/" + image_file.filename
     image_file.save(image_path)
 
-    image = load_img(image_path, target_size=(244,244))
+    image = load_img(image_path, target_size=(224, 224))
     image = img_to_array(image)
     image = image.reshape((1, image.shape[0], image.shape[1], image.shape[2]))
     image = preprocess_input(image)
-    yhat = model.predict(yhat)
+    yhat = model.predict(image)
     label = decode_predictions(yhat)
     label = label[0][0]
 
