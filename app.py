@@ -1,15 +1,14 @@
 from flask import Flask, render_template, request
-import tensorflow as tf
 
 from tensorflow.keras.utils import load_img
 from tensorflow.keras.utils import img_to_array
 from tensorflow.keras.applications.vgg16 import preprocess_input
 from tensorflow.keras.applications.vgg16 import decode_predictions
-from tensorflow.keras.applications.vgg16 import VGG16
+from tensorflow.keras.applications.resnet50 import ResNet50
 
 app = Flask(__name__)
 
-model = VGG16()
+model = ResNet50()
 
 @app.route('/', methods=['GET'])
 def hello_world():
